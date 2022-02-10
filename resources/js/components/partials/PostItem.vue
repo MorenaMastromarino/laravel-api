@@ -32,7 +32,6 @@ export default {
         month = '0' + month;
       }
 
-      console.log(month);
       return `${day}/${month}/${year}`;
     }
   }

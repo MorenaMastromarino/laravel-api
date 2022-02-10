@@ -1956,6 +1956,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Posts',
@@ -1964,8 +1984,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      apiUrl: 'http://127.0.0.1:8000/api/posts',
-      posts: null
+      apiUrl: 'http://127.0.0.1:8000/api/posts?page=',
+      posts: null,
+      pagination: {}
     };
   },
   mounted: function mounted() {
@@ -1975,9 +1996,14 @@ __webpack_require__.r(__webpack_exports__);
     getPosts: function getPosts() {
       var _this = this;
 
-      axios.get(this.apiUrl).then(function (res) {
-        _this.posts = res.data;
-        console.log(_this.posts);
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get(this.apiUrl + page).then(function (res) {
+        _this.posts = res.data.data;
+        _this.pagination = {
+          current: res.data.current_page,
+          last: res.data.last_page
+        };
+        console.log(_this.pagination);
       });
     }
   }
@@ -2076,7 +2102,6 @@ __webpack_require__.r(__webpack_exports__);
         month = '0' + month;
       }
 
-      console.log(month);
       return "".concat(day, "/").concat(month, "/").concat(year);
     }
   }
@@ -2096,7 +2121,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "main[data-v-4ac4d2f8] {\n  padding: 20px 0;\n}", ""]);
+exports.push([module.i, "main[data-v-4ac4d2f8] {\n  padding: 20px 0;\n  margin-bottom: 50px;\n}\nmain button[data-v-4ac4d2f8] {\n  cursor: pointer;\n  padding: 5px;\n  margin: 0 2px;\n}", ""]);
 
 // exports
 
@@ -3397,6 +3422,56 @@ var render = function () {
         _vm._l(_vm.posts, function (post) {
           return _c("PostItem", { key: post.id, attrs: { post: post } })
         }),
+        _vm._v(" "),
+        _c(
+          "div",
+          [
+            _c(
+              "button",
+              {
+                attrs: { disabled: _vm.pagination.current === 1 },
+                on: {
+                  click: function ($event) {
+                    return _vm.getPosts(_vm.pagination.current - 1)
+                  },
+                },
+              },
+              [_vm._v(" << ")]
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.pagination.last, function (i) {
+              return _c(
+                "button",
+                {
+                  key: i,
+                  attrs: { disabled: _vm.pagination.current === i },
+                  on: {
+                    click: function ($event) {
+                      return _vm.getPosts(i)
+                    },
+                  },
+                },
+                [_vm._v(_vm._s(i))]
+              )
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                attrs: {
+                  disabled: _vm.pagination.current === _vm.pagination.last,
+                },
+                on: {
+                  click: function ($event) {
+                    return _vm.getPosts(_vm.pagination.current + 1)
+                  },
+                },
+              },
+              [_vm._v(" >> ")]
+            ),
+          ],
+          2
+        ),
       ],
       2
     ),
