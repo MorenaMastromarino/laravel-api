@@ -2,13 +2,22 @@
   <main>
     <div class="container">
       <h1>Elenco post:</h1>
+      <PostItem 
+        v-for="post in posts"
+        :key="post.id"
+        :post = "post" />
     </div>
   </main>
 </template>
 
 <script>
+import PostItem from './partials/PostItem.vue'
+
 export default {
   name: 'Posts',
+  components: {
+    PostItem,
+  },
 
   data(){
     return {
