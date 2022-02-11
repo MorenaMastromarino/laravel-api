@@ -3,6 +3,15 @@
     <h3>
       <a href="#">{{post.title}}</a>
     </h3>
+    <p class="category" v-if="post.category">{{post.category.name}}</p>
+    <div v-if="post.tags">
+      <span
+       class="tag"
+        v-for="tag in post.tags"
+        :key="`tag${tag.id}`"
+      >{{tag.name}}</span>
+    </div>
+
     <p class="date" >{{formatData}}</p>
     <p class="text">{{troncateText}}</p>
   </article>
@@ -47,6 +56,18 @@ export default {
       &:hover {
         text-decoration: underline;
       }
+    }
+    .category {
+      color: gray;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      background-color: #0492f0;
+      color: white;
+      border-radius: 4px;
+      padding: 2px 4px;
+      margin-right: 5px;
     }
     .date {
       font-size: 12px;

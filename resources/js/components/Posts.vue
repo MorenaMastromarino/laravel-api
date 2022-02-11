@@ -1,12 +1,13 @@
 <template>
   <main>
     <div class="container">
-      <h1>Elenco post:</h1>
+      <h2>Elenco post:</h2>
 
-      <PostItem 
-        v-for="post in posts"
-        :key="post.id"
-        :post = "post" />
+      <div v-if="posts">
+        <PostItem 
+          v-for="post in posts"
+          :key="`post${post.id}`"
+          :post = "post" />
 
         <div>
           <button
@@ -16,7 +17,7 @@
 
           <button
             v-for="i in pagination.last"
-            :key="i"
+            :key="`button${i}`"
             @click="getPosts(i)"
             :disabled="pagination.current === i"
           >{{i}}</button>
@@ -26,6 +27,12 @@
             :disabled="pagination.current === pagination.last"
           > >> </button>
         </div>
+
+      </div>
+
+      <div v-else>
+        <h3>Loading...</h3>
+      </div>
     </div>
   </main>
 </template>
@@ -53,6 +60,7 @@ export default {
 
   methods: {
     getPosts(page = 1){
+      this.posts = null;
       axios.get(this.apiUrl + page)
       .then( res => {
         this.posts = res.data.data;

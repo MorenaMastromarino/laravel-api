@@ -1976,6 +1976,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Posts',
@@ -1997,6 +2004,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      this.posts = null;
       axios.get(this.apiUrl + page).then(function (res) {
         _this.posts = res.data.data;
         _this.pagination = {
@@ -2069,6 +2077,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2178,7 +2195,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "article[data-v-49c43f95] {\n  padding: 10px 0;\n}\narticle a[data-v-49c43f95] {\n  color: black;\n  text-decoration: none;\n}\narticle a[data-v-49c43f95]:hover {\n  text-decoration: underline;\n}\narticle .date[data-v-49c43f95] {\n  font-size: 12px;\n  font-style: italic;\n}", ""]);
+exports.push([module.i, "article[data-v-49c43f95] {\n  padding: 10px 0;\n}\narticle a[data-v-49c43f95] {\n  color: black;\n  text-decoration: none;\n}\narticle a[data-v-49c43f95]:hover {\n  text-decoration: underline;\n}\narticle .category[data-v-49c43f95] {\n  color: gray;\n}\narticle .tag[data-v-49c43f95] {\n  display: inline-block;\n  font-size: 12px;\n  background-color: #0492f0;\n  color: white;\n  border-radius: 4px;\n  padding: 2px 4px;\n  margin-right: 5px;\n}\narticle .date[data-v-49c43f95] {\n  font-size: 12px;\n  font-style: italic;\n}", ""]);
 
 // exports
 
@@ -3413,68 +3430,75 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("main", [
-    _c(
-      "div",
-      { staticClass: "container" },
-      [
-        _c("h1", [_vm._v("Elenco post:")]),
-        _vm._v(" "),
-        _vm._l(_vm.posts, function (post) {
-          return _c("PostItem", { key: post.id, attrs: { post: post } })
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          [
-            _c(
-              "button",
-              {
-                attrs: { disabled: _vm.pagination.current === 1 },
-                on: {
-                  click: function ($event) {
-                    return _vm.getPosts(_vm.pagination.current - 1)
-                  },
-                },
-              },
-              [_vm._v(" << ")]
-            ),
-            _vm._v(" "),
-            _vm._l(_vm.pagination.last, function (i) {
-              return _c(
-                "button",
-                {
-                  key: i,
-                  attrs: { disabled: _vm.pagination.current === i },
-                  on: {
-                    click: function ($event) {
-                      return _vm.getPosts(i)
+    _c("div", { staticClass: "container" }, [
+      _c("h2", [_vm._v("Elenco post:")]),
+      _vm._v(" "),
+      _vm.posts
+        ? _c(
+            "div",
+            [
+              _vm._l(_vm.posts, function (post) {
+                return _c("PostItem", {
+                  key: "post" + post.id,
+                  attrs: { post: post },
+                })
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                [
+                  _c(
+                    "button",
+                    {
+                      attrs: { disabled: _vm.pagination.current === 1 },
+                      on: {
+                        click: function ($event) {
+                          return _vm.getPosts(_vm.pagination.current - 1)
+                        },
+                      },
                     },
-                  },
-                },
-                [_vm._v(_vm._s(i))]
-              )
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                attrs: {
-                  disabled: _vm.pagination.current === _vm.pagination.last,
-                },
-                on: {
-                  click: function ($event) {
-                    return _vm.getPosts(_vm.pagination.current + 1)
-                  },
-                },
-              },
-              [_vm._v(" >> ")]
-            ),
-          ],
-          2
-        ),
-      ],
-      2
-    ),
+                    [_vm._v(" << ")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.pagination.last, function (i) {
+                    return _c(
+                      "button",
+                      {
+                        key: "button" + i,
+                        attrs: { disabled: _vm.pagination.current === i },
+                        on: {
+                          click: function ($event) {
+                            return _vm.getPosts(i)
+                          },
+                        },
+                      },
+                      [_vm._v(_vm._s(i))]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      attrs: {
+                        disabled:
+                          _vm.pagination.current === _vm.pagination.last,
+                      },
+                      on: {
+                        click: function ($event) {
+                          return _vm.getPosts(_vm.pagination.current + 1)
+                        },
+                      },
+                    },
+                    [_vm._v(" >> ")]
+                  ),
+                ],
+                2
+              ),
+            ],
+            2
+          )
+        : _c("div", [_c("h3", [_vm._v("Loading...")])]),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -3574,6 +3598,24 @@ var render = function () {
     _c("h3", [
       _c("a", { attrs: { href: "#" } }, [_vm._v(_vm._s(_vm.post.title))]),
     ]),
+    _vm._v(" "),
+    _vm.post.category
+      ? _c("p", { staticClass: "category" }, [
+          _vm._v(_vm._s(_vm.post.category.name)),
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.post.tags
+      ? _c(
+          "div",
+          _vm._l(_vm.post.tags, function (tag) {
+            return _c("span", { key: "tag" + tag.id, staticClass: "tag" }, [
+              _vm._v(_vm._s(tag.name)),
+            ])
+          }),
+          0
+        )
+      : _vm._e(),
     _vm._v(" "),
     _c("p", { staticClass: "date" }, [_vm._v(_vm._s(_vm.formatData))]),
     _vm._v(" "),
